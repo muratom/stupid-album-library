@@ -1,0 +1,88 @@
+basePath: /api/v1
+definitions:
+  models.Album:
+    properties:
+      artist:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  models.AlbumRequest:
+    properties:
+      artist:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+info:
+  contact:
+    email: muratom73@gmail.com
+    name: muratom
+  description: My first Swagger API for Golang/Gin
+  termsOfService: http://swagger.io/terms/
+  title: My first Swagger API
+  version: "1.0"
+paths:
+  /albums:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Album'
+      summary: Retrieves all albums from DB
+    post:
+      consumes:
+      - application/json
+      description: Adds an album from JSON
+      parameters:
+      - description: Album info
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/models.AlbumRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: created
+          schema:
+            $ref: '#/definitions/models.Album'
+        "500":
+          description: fail
+      security:
+      - ApiKeyAuth: []
+      summary: Adds an album from JSON
+  /albums/{id}:
+    get:
+      parameters:
+      - description: Album ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Album'
+        "500":
+          description: Fail
+      summary: Retrieves album based on given ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

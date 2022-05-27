@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: "web-service-gin-db"
+    build: .
+    restart: always
+    environment:
+      MYSQL_DATABASE: "recordings"
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: "abracadabra"
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - "3306:3306"
+    expose:
+      # Opens port 3306 on the container
+      - "3306"
+    volumes:
+      # Where our data will be persisted
+      - mysql_volume:/var/lib/mysql
+# Names our volume
+volumes:
+  mysql_volume:
